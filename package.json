@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "deploy": "ng deploy --base-href=https://asancho95.github.io/report_octane/ --no-silent",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
