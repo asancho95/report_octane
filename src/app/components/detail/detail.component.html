@@ -1,0 +1,18 @@
+<div class="container">
+    <table mat-table *ngIf="element" [dataSource]="dataSource">
+        <caption>{{title}}</caption>
+        <ng-container *ngFor="let header of headers">
+            <ng-container [matColumnDef]="header">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{header}}
+                </th>
+                <td mat-cell *matCellDef="let item" class="table__rows" [ngClass]="{'need_work': item[header] === '' }">
+                    <a *ngIf="item[header+'_hyperlink']" [href]="item[header+'_hyperlink']" target="_blank">{{item[header]}}</a>
+                    <span *ngIf="!item[header+'_hyperlink']">{{item[header]}}</span>
+                </td>
+            </ng-container>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="headers; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns:headers;"></tr>
+    </table>
+</div>

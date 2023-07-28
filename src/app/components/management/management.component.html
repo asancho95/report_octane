@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="container__header">
+        <a mat-button color="primary" [routerLink]="''">Volver</a>
+        <mat-button-toggle-group [(ngModel)]="config">
+            <mat-button-toggle [value]="Actions.IMPORT"> Importar </mat-button-toggle>
+            <mat-button-toggle [value]="Actions.LOAD"> Cargar </mat-button-toggle>
+            <mat-button-toggle [value]="Actions.DELETE"> Eliminar </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+    <div class="container__form">
+        <ng-container *ngIf="config === Actions.IMPORT">
+            <div class="container__form__import">
+                <input hidden type="file" class="file-input" (change)="configSelected($event)" #configImported>
+                <button type="button" color="primary" mat-raised-button (click)="configImported.click()">
+                    <mat-icon *ngIf="!fileImported">cloud_upload</mat-icon>
+                    <mat-icon *ngIf="fileImported">cloud_done</mat-icon>
+                    Importar configuración
+                </button>
+            </div>
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="Ej. Eroski" [(ngModel)]="projectName">
+            </mat-form-field>
+            <button mat-stroked-button type="button" color="primary" (click)="saveConfig()">
+                <mat-icon>add</mat-icon>
+                Guardar configuración
+            </button>
+        </ng-container>
+    
+        <ng-container *ngIf="config !== Actions.IMPORT">
+            <mat-form-field appearance="outline">
+                <mat-label translate>Proyecto</mat-label>
+                <mat-select [(ngModel)]="selectedProject" (selectionChange)="loadConfig()"
+                    placeholder="Proyecto">
+                    <mat-option *ngFor="let option of list" [value]="option.name">
+                        {{ option.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button *ngIf="config === Actions.LOAD" color="primary" mat-raised-button (click)="applyLoadedConfig()">
+                <mat-icon>archive</mat-icon>
+                Cargar configuración
+            </button>
+            <button *ngIf="config === Actions.DELETE" color="primary" mat-raised-button (click)="deleteConfig()">
+                <mat-icon>delete</mat-icon>
+                Eliminar configuración
+            </button>
+        </ng-container>
+    </div>
+    <div>
+        <table mat-table *ngIf="selectedConfiguration" [dataSource]="dataSource">
+            <caption>{{(config === Actions.IMPORT) ? (projectName ?? selectedConfigurationName) : (selectedProject ?? selectedConfigurationName)}}</caption>
+            <ng-container *ngFor="let header of headers">
+                <ng-container [matColumnDef]="header">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{KeysText[header]}}
+                    </th>
+                    <td mat-cell *matCellDef="let item" class="table__rows">
+                        <span>{{item[header]}}</span>
+                    </td>
+                </ng-container>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="headers; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns:headers;"></tr>
+        </table>
+    </div>
+</div>

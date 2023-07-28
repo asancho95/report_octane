@@ -1,0 +1,73 @@
+<div class="header">
+    <div>
+        <input hidden type="file" class="file-input" (change)="fileSelected($event)" #fileImported>
+        <button type="button" color="primary" mat-raised-button (click)="fileImported.click()">
+            <mat-icon *ngIf="!reportService.reportImported">cloud_upload</mat-icon>
+            <mat-icon *ngIf="reportService.reportImported">cloud_done</mat-icon>
+            Importar backlog
+        </button>
+    </div>
+    <a mat-button color="primary" [routerLink]="'setup'">Configuración</a>
+</div>
+<div class="container" *ngIf="reportService.reportImported">
+    <div>
+        <table mat-table [dataSource]="dataSource">
+            <caption>Tareas</caption>
+            <ng-container *ngFor="let header of reportService.reportImported.reportHeaders">
+                <ng-container [matColumnDef]="header">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{header}}
+                    </th>
+                    <td mat-cell *matCellDef="let item" class="table__rows {{item[header].class}}">
+                        <div (click)="selectData(item[header+'_data'], header)">
+                            <span>{{item[header].value}}</span>
+                        </div>
+                    </td>
+                </ng-container>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="reportService.reportImported.reportHeaders; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns:reportService.reportImported.reportHeaders;"></tr>
+        </table>
+    </div>
+    <div class="container__eficiency">
+        <table class="container__eficiency__project">
+            <caption>Proyecto</caption>
+            <tr>
+                <th>
+                    Tareas sin sprint
+                </th>
+                <td class="right" (click)="selectData(reportService.reportImported.eficiency.tasksWithoutSprint_data, 'Tareas sin sprint')">
+                    {{reportService.reportImported.eficiency.tasksWithoutSprint.value}}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Eficiencia
+                </th>
+                <td class="{{reportService.reportImported.eficiency.eficiency.class}}">
+                    <span>{{reportService.reportImported.eficiency.eficiency.value}}</span>
+                </td>
+            </tr>
+        </table>
+        <table mat-table [dataSource]="teamDataSource">
+            <caption>Eficiencia por persona</caption>
+            <ng-container *ngFor="let header of reportService.reportImported.eficiencyHeaders">
+                <ng-container [matColumnDef]="header.name">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{header.text}}
+                    </th>
+                    <td mat-cell *matCellDef="let item" class="table__rows {{item[header.name].class}}">
+                        <div (click)="selectData(item[header.name+'_data'], header.text)">
+                            <span>{{item[header.name].value}}</span>
+                        </div>
+                    </td>
+                </ng-container>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="teamHeaders; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns:teamHeaders;"></tr>
+        </table>
+    </div>
+</div>
+<div class="detail">
+    <app-detail *ngIf="selectedData" [element]="selectedData" [title]="detailSelected"></app-detail> 
+</div>

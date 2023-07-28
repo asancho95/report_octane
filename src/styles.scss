@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.need_work {
+    background-color: #FFC7CE!important;
+    color: #9C0006!important;
+}
+.done {
+    background-color: #C6EFCE!important;
+    color: #006100!important;
+}
+.right {
+    text-align: right!important;
+}
+
+
+table {
+    border-collapse: collapse!important;
+    caption {
+        padding: 8px;
+        font-weight: 500;
+        background-color: #C6E0B4!important;
+        border-radius: 5px 5px 0 0!important;
+    }
+    tr {
+        th {
+            font-weight: 500;
+            background-color: #E2EFDA!important;
+            text-align: center!important;
+        }
+        td {
+            border-left: 1px solid lightgrey!important;
+            &:last-of-type{
+                border-right: 1px solid lightgrey!important;
+            }
+        }
+        &:last-of-type{
+            border-bottom: 1px solid lightgrey!important;
+        }
+    }
+}
+
+.mat-button-toggle-checked {
+    background-color: #3f51b5; // set the wanted color
+    color: white;
+}
+.mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+    color: white;
+}

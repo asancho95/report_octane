@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    .container__eficiency {
+        display: flex;
+        flex-direction: column;
+        row-gap: 24px;
+        table.container__eficiency__project {
+            tr > th  {
+                text-align: left!important;
+                padding-left: 8px;
+            }
+            tr > td {
+                padding: 0 16px 0 16px;
+            }
+        }
+    }
+}
+.detail {
+    padding: 16px;
+}

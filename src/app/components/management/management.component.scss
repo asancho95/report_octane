@@ -1,0 +1,24 @@
+.container {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    justify-content: flex-start;
+    .container__header {
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+        width: fit-content;
+        a {
+            width: fit-content;
+        }
+    }
+    .container__form {    
+        display: flex;
+        width: fit-content;
+        flex-direction: column;
+        .container__form__import {
+            margin-bottom: 22px;
+        }
+    }
+}
