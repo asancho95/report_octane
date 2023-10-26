@@ -45,14 +45,14 @@ export class ReportService {
 			const estimatedSum: number = itemsSprint.map((element: any) => element[HeadersToCheck.ESTIMATED]).reduce((sum: number, current: number) => sum + current, 0);
 			const remainingSum: number = itemsSprint.map((element: any) => element[HeadersToCheck.REMAINING]).reduce((sum: number, current: number) => sum + current, 0);
 			const investedSum: number = itemsSprint.map((element: any) => element[HeadersToCheck.INVESTED]).reduce((sum: number, current: number) => sum + current, 0);
-			const eficieny: number = ((estimatedSum + remainingSum > 0) ? estimatedSum/(remainingSum + investedSum) : 0);
+			const eficiency: number = ((estimatedSum + remainingSum > 0) ? estimatedSum/(remainingSum + investedSum) : 0);
 
 			//Data
 			const noEstimatedData: any[] = itemsSprint.filter((element: any) => element[HeadersToCheck.ESTIMATED] === 0);
 			const withRemainingHoursData: any[] = itemsSprint.filter((element: any) => element[HeadersToCheck.REMAINING] !== 0);
 			const noInvestedData: any[] = itemsSprint.filter((element: any) => element[HeadersToCheck.INVESTED] === 0);
-			const openedData: any[] = itemsSprint.filter((element: any) => !ENDED_PHASES.includes(element[HeadersToCheck.PHASE]));
-			const noAsignedData: any[] = itemsSprint.filter((element: any) => !this._propertyExists(element, HeadersToCheck.OWNER));
+			const openedData: any[] = itemsSprint.filter((element: any) => !ENDED_PHASES.includes(element[HeadersToCheck.PHASE]) && !ENDED_PHASES.includes(element[HeadersToCheck.STATUS]));
+			const noAsignedData: any[] = itemsSprint.filter((element: any) => !this._propertyExists(element, HeadersToCheck.OWNER) && !this._propertyExists(element, HeadersToCheck.ASSIGNED));
 			const estimatedVsInvested: any[] = itemsSprint.filter((element: any) => element[HeadersToCheck.ESTIMATED] === element[HeadersToCheck.INVESTED] && element[HeadersToCheck.ESTIMATED] >= MIN_ESTIMATION_VS_INVESTED);
 			const bugs: any[] = itemsSprint.filter((element: any) => element[HeadersToCheck.TYPE] === NAME_BUG_TYPE);
 			const ceremonies: any[] = itemsSprint.filter((element: any) => CEREMONIES.includes(element[HeadersToCheck.NAME]));
@@ -75,25 +75,25 @@ export class ReportService {
 				Bugs_data: bugs, 
 				Ceremonias: { value: ceremonies.length, class: this._getClass(ceremonies.length, ReportHeaders.CEREMONIES)},
 				Ceremonias_data: ceremonies,
-				Eficiencia: { value: this._percentPipe.transform(eficieny, '1.2-2'), class: this._getClass(eficieny * 100, ReportHeaders.EFICIENCY)}
+				Eficiencia: { value: this._percentPipe.transform(eficiency, '1.2-2'), class: this._getClass(eficiency * 100, ReportHeaders.EFICIENCY)}
 			}
 		});
 	}
 
 	private _getProjectEficiency(data: any): Eficiency {
-		const teamMembers: string[] = [...new Set(data.map((element: any) => element[HeadersToCheck.OWNER]) as string[])];
+		const teamMembers: string[] = [...new Set(data.map((element: any) => this._getOwner(element)) as string[])];
 		let eficiency: Eficiency = this._getEficiency(data);
 		eficiency.teamEficiency = [];
 		teamMembers.forEach((member: string) => {
 			const memberName: string = (member && member !== '') ? member : 'Sin asignar'
-			const dataOfMember: any[] = data.filter((element: any) => element[HeadersToCheck.OWNER] === member);
+			const dataOfMember: any[] = data.filter((element: any) => this._getOwner(element) === member);
 			eficiency.teamEficiency?.push({member: { value: memberName}, ...this._getEficiency(dataOfMember)});
 		});
 		return eficiency;
 	}
 
 	private _getEficiency(data: any): Eficiency {
-		const doneOrClosed: any = data.filter((element: any) => element[HeadersToCheck.TYPE] === NAME_MAIN_TYPE && ENDED_PHASES.includes(element[HeadersToCheck.PHASE]));
+		const doneOrClosed: any = data.filter((element: any) => element[HeadersToCheck.TYPE] === NAME_MAIN_TYPE && (ENDED_PHASES.includes(element[HeadersToCheck.PHASE]) || ENDED_PHASES.includes(element[HeadersToCheck.STATUS])));
 		const estimated: number = doneOrClosed.map((element: any) => element[HeadersToCheck.ESTIMATED]).reduce((sum: number, current: number) => sum + current, 0);
 		const invested: number = doneOrClosed.map((element: any) => element[HeadersToCheck.INVESTED]).reduce((sum: number, current: number) => sum + current, 0);
 		const eficieny: number = ((estimated > 0 && invested > 0) ? estimated/invested : 0);
@@ -109,6 +109,7 @@ export class ReportService {
 	}
 
 	private _getClass(value: number, column: string) {
+		//TODO: Revisar las clases con datos de configuración no utilizados
 		let classes: string = '';
 		switch(column) {
 			case ReportHeaders.NO_ESTIMATED:
@@ -132,5 +133,13 @@ export class ReportService {
 
 	private _propertyExists(element: any, property: string) {
 		return  element[property] && element[property] !== '';
+	}
+
+	private _getOwner(element: any) {
+		if(this._propertyExists(element, HeadersToCheck.OWNER)) {
+			return element[HeadersToCheck.OWNER];
+		} else {
+			return element[HeadersToCheck.ASSIGNED];
+		}
 	}
 }

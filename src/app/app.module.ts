@@ -6,22 +6,24 @@ import { RouterModule } from '@angular/router';
 import { PercentPipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
-import { TableCompetitorDirective } from './directives/popover.directive';
 import { DetailComponent } from './components/detail/detail.component';
 import { FormsModule } from '@angular/forms';
 import { ManagementComponent } from './components/management/management.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		HomeComponent,
 		DetailComponent,
-		TableCompetitorDirective,
-  ManagementComponent
+  		ManagementComponent
 	],
 	imports: [
 		BrowserModule,
         FormsModule,
+		ToastrModule.forRoot({
+			positionClass: 'toast-top-center'
+		}),
 		MaterialModule,
 		RouterModule.forRoot(
 			[

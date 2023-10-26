@@ -50,3 +50,30 @@ table {
 .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
     color: white;
 }
+
+#toast-container > .toast-warning:before {
+    background-color: yellow !important;
+    color: black !important;
+}
+
+#toast-container > .toast-success {
+    //background-image: none !important;
+    background-color: green !important;
+    color: white !important;
+    width: 40% !important;
+    border-radius: 4px;
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.17);
+}
+
+#toast-container > .toast-success:before {
+    background-color: green !important;
+    color: white !important;
+}
+
+#toast-container > .toast-error {
+    background-color: lightpink !important;
+    color: white !important;
+    width: 40% !important;
+    border-radius: 4px;
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.17);
+}

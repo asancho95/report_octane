@@ -47,6 +47,10 @@ export class HomeComponent {
 	selectData(data: any[], detailTitle: string) {
 		this.detailSelected = detailTitle;
 		this.selectedData = data;
-		this.selectedData.sort((a: any, b: any) => a[HeadersToCheck.OWNER] < b[HeadersToCheck.OWNER] ? -1 : 1)
+		this.selectedData.sort((a: any, b: any) => {
+			const ownerA: string = a[HeadersToCheck.OWNER] ?? a[HeadersToCheck.ASSIGNED] ?? '';
+			const ownerB: string = b[HeadersToCheck.OWNER] ?? b[HeadersToCheck.ASSIGNED] ?? '';
+			return ownerA < ownerB ? -1 : 1
+		})
 	}
 }

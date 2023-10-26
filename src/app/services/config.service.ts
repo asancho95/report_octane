@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Utils } from '../utils/utils';
 import { Configuration, ProjectConfiguration } from '../models/config.model';
-import { getCurrentConfig, setCeremonies, setEndedPhases, setMinEstimatedVsInvested, setNameBugType, setNameMainType } from '../models/config.const';
+import { getCurrentConfig, setCeremonies, setEficiency, setEndedPhases, setMinEstimatedVsInvested, setNameBugType, setNameMainType, setRatioBugs } from '../models/config.const';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -44,6 +44,8 @@ export class ConfigService {
 		setEndedPhases(json.fasesTerminadas);
 		setNameMainType(json.nombreTipoPrincipal);
 		setNameBugType(json.nombreTipoBug);
+		setEficiency(json.eficiencia);
+		setRatioBugs(json.ratioBugs);
 	}
 
 	getConfigurationsList(): ProjectConfiguration[] {

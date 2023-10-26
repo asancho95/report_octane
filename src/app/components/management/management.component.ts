@@ -4,6 +4,7 @@ import { Actions } from 'src/app/models/actions.enum';
 import { getCurrentConfig } from 'src/app/models/config.const';
 import { Configuration, KeysText, ProjectConfiguration } from 'src/app/models/config.model';
 import { ConfigService } from 'src/app/services/config.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { Utils } from 'src/app/utils/utils';
 
 @Component({
@@ -38,7 +39,7 @@ export class ManagementComponent implements OnInit {
 		return KeysText;
 	}
 
-	constructor(private _configService: ConfigService) { }
+	constructor(private _configService: ConfigService, private _toastService: ToastService) { }
 
 	ngOnInit(): void {
 		this.refreshList();
@@ -63,17 +64,19 @@ export class ManagementComponent implements OnInit {
 			this.fileImported = false;
 			this._configService.setLastSelectedConfig(this.projectName);
 			this.refreshList();
+			this.projectName = undefined;
 		} else {
-			alert("Tienes que introducir un nombre e importar un archivo");
+			this._toastService.error("Error", "Tienes que introducir un nombre e importar un archivo");
 		}
 	}
 
 	loadConfig() {
 		if(this.selectedProject) {
 			this.selectedConfiguration = this._configService.loadConfig(this.selectedProject) ?? getCurrentConfig();
+			this._configService.setLastSelectedConfig(this.selectedProject);
 			this.refreshList();
 		} else {
-			alert("Tienes que seleccionar una configuración");
+			this._toastService.error("Error", "Tienes que seleccionar una configuración");
 		}
 	}
 
@@ -84,7 +87,7 @@ export class ManagementComponent implements OnInit {
 			this.selectedConfiguration = getCurrentConfig();
 			this.refreshList();
 		} else {
-			alert("Tienes que seleccionar una configuración");
+			this._toastService.error("Error", "Tienes que seleccionar una configuración");
 		}
 	}
 
@@ -92,7 +95,21 @@ export class ManagementComponent implements OnInit {
 		if(this.selectedConfiguration) {
 			this._configService.updateConstants(this.selectedConfiguration);
 		} else {
-			alert("Error al cargar la configuración");
+			this._toastService.error("Error", "Error al cargar la configuración");
+		}
+	}
+
+	refreshTable() {
+		switch(this.config) {
+			case Actions.IMPORT:
+				this.selectedConfiguration = getCurrentConfig();
+				break;
+			case Actions.LOAD:
+			case Actions.DELETE:
+				if(this.selectedProject) {
+					this.loadConfig();
+				}
+				break;
 		}
 	}
 }

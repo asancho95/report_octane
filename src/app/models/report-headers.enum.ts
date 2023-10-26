@@ -25,7 +25,9 @@ export enum HeadersToCheck {
     REMAINING = "Remaining hours",
     INVESTED = "Invested hours",
     PHASE = "Phase",
+    STATUS = "Status",
     OWNER = "Owner",
+    ASSIGNED = "Assigned",
     TYPE = "Type"
 }
 

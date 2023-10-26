@@ -5,14 +5,18 @@ export let MIN_ESTIMATION_VS_INVESTED: number = 20;
 export let ENDED_PHASES: string[] = ["Closed", "Done", "Fixed"];
 export let NAME_MAIN_TYPE: string = "User Story";
 export let NAME_BUG_TYPE: string = "Defect";
+export let RATIO_BUGS: number = 60;
+export let EFICIENCY: number = 10;
 
 export function getCurrentConfig(): Configuration {
     return {
-        ceremonias: CEREMONIES,
         minEstimacionVsInvertido: MIN_ESTIMATION_VS_INVESTED,
-        fasesTerminadas: ENDED_PHASES,
+        ratioBugs: RATIO_BUGS,
+        ceremonias: CEREMONIES,
+        eficiencia: EFICIENCY,
+        nombreTipoBug: NAME_BUG_TYPE,
         nombreTipoPrincipal: NAME_MAIN_TYPE,
-        nombreTipoBug: NAME_BUG_TYPE
+        fasesTerminadas: ENDED_PHASES
     }
 }
 
@@ -43,5 +47,17 @@ export function setNameMainType(_newValue: string | undefined) {
 export function setNameBugType(_newValue: string | undefined) {
     if(_newValue) {
         NAME_BUG_TYPE = _newValue;
+    }
+}
+
+export function setRatioBugs(_newValue: number | undefined) {
+    if(_newValue) {
+        RATIO_BUGS = _newValue;
+    }
+}
+
+export function setEficiency(_newValue: number | undefined) {
+    if(_newValue) {
+        EFICIENCY = _newValue;
     }
 }
