@@ -1,0 +1,9 @@
+{
+    "minEstimacionVsInvertido": 20,
+    "ratioBugs": 60,
+    "ceremonias": ["CodeReview", "Daily", "Planning", "Refinement", "Review DEMO"],
+    "eficiencia": 10,
+    "nombreTipoBug": "Defect",
+    "nombreTipoPrincipal": "User Story",
+    "fasesTerminadas": ["Closed", "Done", "Fixed", "Completed"]
+}

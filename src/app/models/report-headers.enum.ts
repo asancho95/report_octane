@@ -17,9 +17,38 @@ export const TEAM_EFICIENCY_HEADERS = [
     }
 ]
 
+export const COLUMNS: any = {
+    "A1": HEADERS[0],
+    'B1': HEADERS[1],
+    'C1': HEADERS[2],
+    'D1': HEADERS[3],
+    'E1': HEADERS[4],
+    'F1': HEADERS[5],
+    'G1': HEADERS[6],
+    'H1': HEADERS[7],
+    'I1': HEADERS[8],
+    'J1': HEADERS[9],
+    'K1': HEADERS[10],
+    'L1': HEADERS[11],
+    'M1': HEADERS[12],
+    'N1': HEADERS[13],
+    'O1': HEADERS[14],
+    'P1': HEADERS[15],
+    'Q1': HEADERS[16],
+    'R1': HEADERS[17],
+    'S1': HEADERS[18],
+    'T1': HEADERS[19],
+    'U1': HEADERS[20],
+    'V1': HEADERS[21],
+    'W1': HEADERS[22],
+    'X1': HEADERS[23],
+    'Y1': HEADERS[24]
+}
+
 export enum HeadersToCheck {
     CICLO = "Release",
     SPRINT = "Sprint",
+    BACKLOG_ITEM = "Backlog item: ",
     NAME = "Name",
     ESTIMATED = "Estimated hours",
     REMAINING = "Remaining hours",

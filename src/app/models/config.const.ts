@@ -2,7 +2,7 @@ import { Configuration } from "./config.model";
 
 export let CEREMONIES: string[] = ["CodeReview", "Daily", "Planning", "Refinement", "Review DEMO"];
 export let MIN_ESTIMATION_VS_INVESTED: number = 20;
-export let ENDED_PHASES: string[] = ["Closed", "Done", "Fixed"];
+export let ENDED_PHASES: string[] = ["Closed", "Done", "Fixed", "Completed"];
 export let NAME_MAIN_TYPE: string = "User Story";
 export let NAME_BUG_TYPE: string = "Defect";
 export let RATIO_BUGS: number = 60;

@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class DetailComponent {
 	@Input() title: string = "Detalle";
-	@Input() element: any | undefined;
+	@Input() element?: any;
 
 	get headers(): string[] {
 		return DETAIL_HEADERS;
